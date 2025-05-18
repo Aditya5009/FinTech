@@ -1,0 +1,35 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider = "mysql"
+    url      = env("DATABASE_URL")
+}
+
+model User {
+    id       Int           @id @default(autoincrement())
+    email    String        @unique
+    password String
+    accounts BankAccount[] // One-to-many
+}
+
+model BankAccount {
+    id          Int           @id @default(autoincrement())
+    accountType String
+    balance     Float
+    userId      Int
+    user        User          @relation(fields: [userId], references: [id])
+    sent        Transaction[] @relation("FromAccount")
+    received    Transaction[] @relation("ToAccount")
+}
+
+model Transaction {
+    id            Int         @id @default(autoincrement())
+    amount        Float
+    fromAccount   BankAccount @relation("FromAccount", fields: [fromAccountId], references: [id])
+    fromAccountId Int
+    toAccount     BankAccount @relation("ToAccount", fields: [toAccountId], references: [id])
+    toAccountId   Int
+    createdAt     DateTime    @default(now())
+}
