@@ -5,6 +5,6 @@ import { transferFunds } from '../controllers/transactionController';
 const router = express.Router();
 router.use(authenticate);
 
-router.post('/', transferFunds);
+router.post('/transfer', transferFunds);
 
 export default router;

@@ -5,7 +5,7 @@ import { createAccount, getAccounts } from '../controllers/accountController';
 const router = express.Router();
 router.use(authenticate);
 
-router.post('/', createAccount);
-router.get('/', getAccounts);
+router.post('/create', createAccount);
+router.get('/getAll', getAccounts);
 
 export default router;
